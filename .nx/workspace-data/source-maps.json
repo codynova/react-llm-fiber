@@ -1,0 +1,220 @@
+{
+  "packages/reconciler": {
+    "root": [
+      "packages/reconciler/project.json",
+      "nx/core/project-json"
+    ],
+    "name": [
+      "packages/reconciler/project.json",
+      "nx/core/project-json"
+    ],
+    "projectType": [
+      "packages/reconciler/project.json",
+      "nx/core/project-json"
+    ],
+    "tags": [
+      "packages/reconciler/package.json",
+      "nx/core/package-json"
+    ],
+    "tags.npm:private": [
+      "packages/reconciler/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.targetGroups": [
+      "packages/reconciler/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.js": [
+      "packages/reconciler/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.js.packageName": [
+      "packages/reconciler/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.js.isInPackageManagerWorkspaces": [
+      "packages/reconciler/package.json",
+      "nx/core/package-json"
+    ],
+    "targets": [
+      "packages/reconciler/package.json",
+      "nx/core/package-json"
+    ],
+    "$schema": [
+      "packages/reconciler/project.json",
+      "nx/core/project-json"
+    ],
+    "sourceRoot": [
+      "packages/reconciler/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.build": [
+      "packages/reconciler/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.build.executor": [
+      "packages/reconciler/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.build.options": [
+      "packages/reconciler/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.build.options.command": [
+      "packages/reconciler/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.lint": [
+      "packages/reconciler/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.lint.executor": [
+      "packages/reconciler/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.test": [
+      "packages/reconciler/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.test.executor": [
+      "packages/reconciler/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.test.options": [
+      "packages/reconciler/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.test.options.command": [
+      "packages/reconciler/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.test.options.cwd": [
+      "packages/reconciler/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.typecheck": [
+      "packages/reconciler/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.typecheck.executor": [
+      "packages/reconciler/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.typecheck.defaultConfiguration": [
+      "packages/reconciler/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.typecheck.configurations": [
+      "packages/reconciler/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.typecheck.configurations.dev": [
+      "packages/reconciler/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.typecheck.configurations.dev.commands": [
+      "packages/reconciler/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.typecheck.configurations.dev.parallel": [
+      "packages/reconciler/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.typecheck.configurations.prod": [
+      "packages/reconciler/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.typecheck.configurations.prod.commands": [
+      "packages/reconciler/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.typecheck.configurations.prod.parallel": [
+      "packages/reconciler/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.build.dependsOn": [
+      "nx.json",
+      "nx/target-defaults"
+    ],
+    "targets.build.options.cwd": [
+      "nx.json",
+      "nx/target-defaults"
+    ],
+    "targets.build.inputs": [
+      "nx.json",
+      "nx/target-defaults"
+    ],
+    "targets.build.outputs": [
+      "nx.json",
+      "nx/target-defaults"
+    ],
+    "targets.build.cache": [
+      "nx.json",
+      "nx/target-defaults"
+    ],
+    "targets.build.parallelism": [
+      "nx.json",
+      "nx/target-defaults"
+    ],
+    "targets.lint.inputs": [
+      "nx.json",
+      "nx/target-defaults"
+    ],
+    "targets.lint.outputs": [
+      "nx.json",
+      "nx/target-defaults"
+    ],
+    "targets.lint.cache": [
+      "nx.json",
+      "nx/target-defaults"
+    ],
+    "targets.lint.parallelism": [
+      "nx.json",
+      "nx/target-defaults"
+    ],
+    "targets.test.dependsOn": [
+      "nx.json",
+      "nx/target-defaults"
+    ],
+    "targets.test.inputs": [
+      "nx.json",
+      "nx/target-defaults"
+    ],
+    "targets.test.outputs": [
+      "nx.json",
+      "nx/target-defaults"
+    ],
+    "targets.test.cache": [
+      "nx.json",
+      "nx/target-defaults"
+    ],
+    "targets.test.parallelism": [
+      "nx.json",
+      "nx/target-defaults"
+    ],
+    "targets.typecheck.dependsOn": [
+      "nx.json",
+      "nx/target-defaults"
+    ],
+    "targets.typecheck.options.cwd": [
+      "nx.json",
+      "nx/target-defaults"
+    ],
+    "targets.typecheck.inputs": [
+      "nx.json",
+      "nx/target-defaults"
+    ],
+    "targets.typecheck.outputs": [
+      "nx.json",
+      "nx/target-defaults"
+    ],
+    "targets.typecheck.cache": [
+      "nx.json",
+      "nx/target-defaults"
+    ],
+    "targets.typecheck.parallelism": [
+      "nx.json",
+      "nx/target-defaults"
+    ]
+  }
+}

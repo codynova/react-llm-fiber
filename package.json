@@ -1,0 +1,26 @@
+{
+  "name": "react-llm-fiber",
+  "version": "0.0.1",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "libs/*",
+    "packages/*"
+  ],
+  "devDependencies": {
+    "@nx/jest": "21.4.0",
+    "@nx/workspace": "21.4.0",
+    "@types/jest": "^30",
+    "@types/node": "^22",
+    "@yarnpkg/types": "^4.0.1",
+    "jest": "^30",
+    "nx": "21.4.0",
+    "prettier": "^3.6.2",
+    "tsx": "^4.20.4",
+    "typescript": "~5.9.2"
+  },
+  "engines": {
+    "node": "^22"
+  },
+  "packageManager": "yarn@4.9.2"
+}

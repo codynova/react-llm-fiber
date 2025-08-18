@@ -1,0 +1,10 @@
+[NX v21.4.0 Daemon Server] - 2025-08-18T23:37:16.297Z - Started listening on: \\.\pipe\nx\C:\Users\codyp\AppData\Local\Temp\e38cb8d379f1ad406521\d.sock
+[NX v21.4.0 Daemon Server] - 2025-08-18T23:37:16.300Z - [WATCHER]: Subscribed to changes within: C:\Users\codyp\Projects\react-llm-fiber (native)
+[NX v21.4.0 Daemon Server] - 2025-08-18T23:37:16.306Z - Established a connection. Number of open connections: 1
+[NX v21.4.0 Daemon Server] - 2025-08-18T23:37:16.306Z - Established a connection. Number of open connections: 2
+[NX v21.4.0 Daemon Server] - 2025-08-18T23:37:16.308Z - Closed a connection. Number of open connections: 1
+[NX v21.4.0 Daemon Server] - 2025-08-18T23:37:16.310Z - [REQUEST]: Client Request for Project Graph Received
+[NX v21.4.0 Daemon Server] - 2025-08-18T23:37:16.338Z - Time taken for 'loadSpecifiedNxPlugins' 3.220100000000002ms
+Time for 'plugin worker 16972 code loading' 7.733400000000003
+Time for 'plugin worker 17436 code loading' 7.987200000000001
+Time for 'plugin worker 17416 code loading' 9.9344
