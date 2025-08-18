@@ -4,7 +4,7 @@ A React reconciler for LLMs
 
 ## Mental model
 
-Like react-three-fiber maps JSX to a scene graph, **LLM-Fiber** maps JSX to a **prompt graph**:
+Like react-three-fiber maps JSX to a scene graph, react-llm-fiber maps JSX to a **prompt graph**:
 
 * **Nodes**: system prompts, messages, memories, tools, constraints, schemas.
 * **Edges**: data dependencies between nodes (e.g., tool outputs feeding the next call).
@@ -17,7 +17,7 @@ Like react-three-fiber maps JSX to a scene graph, **LLM-Fiber** maps JSX to a **
 ```tsx
 import {
   LLMProvider, Chat, System, User, Assistant, Stream, Composer
-} from "llm-fiber";
+} from "react-llm-fiber";
 
 export default function App() {
   return (
@@ -48,7 +48,7 @@ export default function App() {
 ## Tool calling (typed, zero ceremony)
 
 ```tsx
-import { Tool, z, Chat, System, User, Assistant, Stream } from "llm-fiber";
+import { Tool, z, Chat, System, User, Assistant, Stream } from "react-llm-fiber";
 
 const SearchTool = (
   <Tool
@@ -89,7 +89,7 @@ export default function Agent() {
 import {
   Agent, Goal, Context, Tools, Planner, Executor, Critic, Memory, Score,
   Tool
-} from "llm-fiber";
+} from "react-llm-fiber";
 
 export function IssueTriage({ issue }: { issue: GithubIssue }) {
   return (
@@ -126,7 +126,7 @@ You **declare** your agent topology; the reconciler turns it into a directed gra
 ## RAG without glue code
 
 ```tsx
-import { RAG, Index, Retriever, Chat, System, User, Assistant, Stream } from "llm-fiber";
+import { RAG, Index, Retriever, Chat, System, User, Assistant, Stream } from "react-llm-fiber";
 
 export default function DocsBot({ docs }: { docs: Array<{id: string, text: string}> }) {
   return (
@@ -157,7 +157,7 @@ The reconciler:
 ## Choice sampling with Suspense & Transitions
 
 ```tsx
-import { Choices, Choice, Best, Judge } from "llm-fiber";
+import { Choices, Choice, Best, Judge } from "react-llm-fiber";
 
 export function SubjectLine({ brief }: { brief: string }) {
   return (
@@ -308,7 +308,7 @@ All components are “**diff-aware**”: updates only re-run the minimal affecte
 ## Example: multi-turn form helper (schema-constrained)
 
 ```tsx
-import { Chat, System, User, Assistant, Stream, Guardrails } from "llm-fiber";
+import { Chat, System, User, Assistant, Stream, Guardrails } from "react-llm-fiber";
 import { z } from "zod";
 
 const FormSchema = z.object({
@@ -344,7 +344,7 @@ export function FormDesigner() {
 ## Example: routing by size/latency/budget
 
 ```tsx
-import { SwitchModel, useCompletion } from "llm-fiber";
+import { SwitchModel, useCompletion } from "react-llm-fiber";
 
 function Summarize({ text }: { text: string }) {
   return (
