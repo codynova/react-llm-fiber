@@ -1,1 +1,10 @@
-# @react-llm-fiber/reconciler
+# @react-llm-fiber/runtime
+
+React-agnostic contracts and helpers for react-llm-fiber.
+
+- **Readable public API**: `Delta` with `type` discriminant
+- **Compact wire**: `WireDelta` with short keys and codecs
+
+```ts
+import { type Delta, encodeDelta, decodeDelta } from '@react-llm-fiber/runtime';
+```
