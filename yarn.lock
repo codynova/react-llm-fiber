@@ -2165,14 +2165,35 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-llm-fiber/runtime@workspace:packages/runtime":
+"@react-llm-fiber/engine-builtin@workspace:packages/engine-builtin":
   version: 0.0.0-use.local
-  resolution: "@react-llm-fiber/runtime@workspace:packages/runtime"
+  resolution: "@react-llm-fiber/engine-builtin@workspace:packages/engine-builtin"
+  dependencies:
+    "@react-llm-fiber/runtime": "workspace:^"
+    "@types/react": "npm:^19.1.1"
+    "@types/react-reconciler": "npm:0.32.0"
+    react: "npm:^19.1.1"
+    react-reconciler: "npm:0.32.0"
+    vitest: "npm:^3.2.4"
+  languageName: unknown
+  linkType: soft
+
+"@react-llm-fiber/react@workspace:packages/react":
+  version: 0.0.0-use.local
+  resolution: "@react-llm-fiber/react@workspace:packages/react"
   dependencies:
     "@types/react": "npm:^19.1.1"
     "@types/react-reconciler": "npm:0.32.0"
     react: "npm:^19.1.1"
     react-reconciler: "npm:0.32.0"
+    vitest: "npm:^3.2.4"
+  languageName: unknown
+  linkType: soft
+
+"@react-llm-fiber/runtime@workspace:^, @react-llm-fiber/runtime@workspace:packages/runtime":
+  version: 0.0.0-use.local
+  resolution: "@react-llm-fiber/runtime@workspace:packages/runtime"
+  dependencies:
     vitest: "npm:^3.2.4"
   languageName: unknown
   linkType: soft

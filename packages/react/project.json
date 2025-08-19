@@ -1,0 +1,47 @@
+{
+  "name": "react",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/react/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "build": {
+      "command": "rm -rf esm && babel ./src --out-dir esm --extensions .ts,.tsx,.js,.jsx --copy-files --no-copy-ignored"
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    },
+    "test": {
+      "executor": "nx:run-commands",
+      "defaultConfiguration": "dev",
+      "configurations": {
+        "dev": {
+          "command": "vitest run"
+        },
+        "ci": {
+          "command": "vitest run --coverage"
+        }
+      }
+    },
+    "tsc": {
+      "executor": "nx:run-commands",
+      "defaultConfiguration": "dev",
+      "configurations": {
+        "dev": {
+          "commands": [
+            "tsc --build --pretty --verbose",
+            "prettier ./dts --write --loglevel warn"
+          ],
+          "parallel": false
+        },
+        "prod": {
+          "commands": [
+            "tsc --build ./tsconfig.prod.json --pretty --verbose",
+            "prettier ./dts --write --loglevel warn"
+          ],
+          "parallel": false
+        }
+      }
+    }
+  }
+}

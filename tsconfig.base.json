@@ -19,6 +19,12 @@
     "noUncheckedSideEffectImports": true,
     "skipLibCheck": true,
     "paths": {
+      "@react-llm-fiber/engine-builtin": [
+        "./packages/engine-builtin/src"
+      ],
+      "@react-llm-fiber/engine-builtin/*": [
+        "./packages/engine-builtin/src/*"
+      ],
       "@react-llm-fiber/runtime": [
         "./packages/runtime/src"
       ],

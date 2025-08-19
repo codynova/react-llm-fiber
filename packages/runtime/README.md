@@ -1,6 +1,6 @@
 # @react-llm-fiber/runtime
 
-React-agnostic contracts and helpers for react-llm-fiber.
+Framework-agnostic contracts and helpers for react-llm-fiber.
 
 - **Readable public API**: `Delta` with `type` discriminant
 - **Compact wire**: `WireDelta` with short keys and codecs
