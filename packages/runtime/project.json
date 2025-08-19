@@ -23,7 +23,7 @@
         }
       }
     },
-    "typecheck": {
+    "tsc": {
       "executor": "nx:run-commands",
       "defaultConfiguration": "dev",
       "configurations": {

@@ -59,7 +59,7 @@
       ],
       "cache": true
     },
-    "typecheck": {
+    "tsc": {
       "dependsOn": [
         "^typecheck"
       ],
