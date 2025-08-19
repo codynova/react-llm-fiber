@@ -1,142 +1,100 @@
-# react-llm-fiber — Development Checklist
+# react-llm-fiber — Development Checklist (updated)
 
 ## 0) Monorepo & Scaffolding
 
-* [ ] Initialize Nx + Yarn workspaces, TS `strict`, project refs
+* [x] Initialize Nx + Yarn workspaces, TS `strict`, project refs
 * [ ] Set up ESLint, Prettier, Changesets, commitlint
 * [ ] Configure CI (typecheck, lint, unit, conformance, examples)
 * [ ] Repo layout
-
-  * [ ] `packages/core`
-  * [ ] `packages/reconciler`
-  * [ ] `packages/engine-builtin`
+  * [x] `packages/runtime`
+  * [x] `packages/engine-builtin`
+  * [ ] `packages/react` (renderer)
   * [ ] `packages/engine-langgraph`
-  * [ ] `packages/transport-litelm`
-  * [ ] `packages/tools-mcp`
-  * [ ] `packages/vector-memory`
-  * [ ] `packages/vector-adapters` (pgvector, qdrant, pinecone)
-  * [ ] `packages/devtools`
-  * [ ] `packages/tracing`
   * [ ] `examples/*`
   * [ ] `docs/`
-* [ ] ESM builds with `"exports"` maps; sideEffects flags; tree-shake optional engines
-* [ ] **Acceptance:** repo builds green locally + CI ✅
+* [ ] ESM builds with `"exports"` maps; tree-shake optional engines
 
-## 1) Core Design Contracts
+## 1) Core Design Contracts (runtime)
 
-* [ ] Define `Delta` event protocol (token, tool\_call, tool\_result, meta, status, error)
-* [ ] Define `Engine` interface (`run`, optional `agent`, optional `resume`)
-* [ ] Define `Transport` adapter (LiteLLM-first) + embeddings (optional)
-* [ ] Define `ToolRuntime` (register/call) with Zod validation
-* [ ] Define `VectorIndex` (upsert/search)
-* [ ] Normalize error model (`LlmError` kinds) and budget types
-* [ ] **Acceptance:** compiled types + unit tests for contracts ✅
+* [x] Define `Delta` (readable) + `WireDelta` (compact) and codecs
+* [x] Define `Engine`, `RunHandle`, `RunInput`
+* [x] Define `Transport`, `ToolRuntime`, `VectorIndex`
+* [x] Errors (`LlmError`, `normalizeError`) and budget utils
+* [x] **Tests:** encode/decode round-trip, budget math, error normalization
 
-## 2) Reconciler (Mutation Mode) & JSX Surface
+## 2) React Renderer (Mutation Mode)
 
-* [ ] Implement HostConfig (create/append/insert/prepareUpdate/commitUpdate/remove/commitMount)
-* [ ] Components: `<LLMProvider> <Chat> <System> <User> <Assistant> <Stream>`
-* [ ] Components: `<Tool>` (MCP-backed), `<Index>` `<Retriever>`
-* [ ] Hooks: `useLLM`, `useChat`, `useCompletion`, `useTool`, `useIndex`, `useCost`, `useTrace`, `useMemory`
-* [ ] Abort on unmount; coalesce side effects in `prepareForCommit/resetAfterCommit`
-* [ ] **Acceptance:** editing `<System>` restarts only affected run; removing `<Stream>` aborts tokens ✅
+* [ ] HostConfig (create/append/insert/prepare/commit/remove)
+* [ ] Components: `<LLMProvider> <Chat> <System> <User> <Assistant> <Stream> <Tool>`
+* [ ] Hooks: `useChat`, `useCompletion`, `useTool`, `useIndex`, `useCost`
+* [ ] Abort on unmount; coalesce side effects
 
-## 3) Built-in Engine (Default)
+## 3) Built-in Engine (LiteLLM + tools)
 
-* [ ] Implement `engine-builtin` using `transport-litelm` + `tools-mcp` + `vector-memory`
-* [ ] Streaming with backpressure + cancellation
-* [ ] Optional JSON-schema response validation + auto-retry
-* [ ] Content hashing for call dedupe within a commit
-* [ ] Suspense/Transitions + SSR support
-* [ ] **Acceptance:** `examples/nextjs-chat` streams; tools work; budgets enforce ✅
+* [x] Stream assistant tokens from LiteLLM; cancellation/abort
+* [x] Capture OpenAI-style `tool_calls`, execute registered tools
+* [x] Second pass with tool results; emit final `status: done`
+* [ ] JSON-schema/structured output with auto-retry (optional)
+* [ ] Dedupe by content hash within a commit
+* [ ] SSR/Suspense/Transitions hardening
+* [ ] **Tests:** env-guarded LiteLLM integration (optional)
 
 ## 4) RAG System & Adapters
 
-* [ ] Chunker (size/overlap), dedupe, packing by token budget
-* [ ] `<Index name source …>` incremental updates
-* [ ] `<Retriever index k>` injection; `showContext` rendering
-* [ ] Implement `vector-adapters/pgvector` + `qdrant`; stub pinecone
-* [ ] **Acceptance:** changing `docs` re-upserts deltas; retrieved context annotated in stream ✅
+* [ ] Chunker + packing by token budget
+* [ ] `<Index>` incremental updates; `<Retriever>` injection
+* [ ] Vector adapters (pgvector, qdrant, pinecone)
 
-## 5) LangGraph Engine (Optional)
+## 5) LangGraph Engine (optional)
 
-* [ ] Map `<Agent><Planner><Executor><Critic><HumanGate>` → LangGraph `StateGraph`
-* [ ] Checkpointers: in-memory (dev) + Postgres (prod)
-* [ ] Bind MCP tools inside graph
-* [ ] Implement `resume(id)` reattachment
-* [ ] Conformance to `Delta` semantics (plan/execute/status/tool events)
-* [ ] **Acceptance:** `examples/agents-triage` runs with pause/resume; survives server restart with Postgres ✅
+* [ ] Map `<Agent><Planner><Executor><Critic><HumanGate>` to graph
+* [ ] Checkpointers (in-memory/dev, Postgres/prod)
+* [ ] `resume(id)` support and parity with builtin deltas
 
-## 6) Temporal Integration (Optional Package)
+## 6) Temporal Integration (optional)
 
-* [ ] `@react-llm-fiber/temporal-bridge` (start/query/cancel)
-* [ ] UI: `<StartInBackground/>` + `<RunStatus runId/>`
-* [ ] Workflows can use builtin or LangGraph engine internally
-* [ ] **Acceptance:** `examples/temporal-bg` completes across deploys; cancel works; output visible in UI ✅
+* [ ] `temporal-bridge` (start/query/cancel) + minimal React helpers
+* [ ] Example: background agent run with status in UI
 
-## 7) Tracing & Devtools
+## 7) Tracing & Devtools (deferred)
 
-* [ ] OTel spans for model calls, tools, indexing, retrieval
-* [ ] Exporters: console (dev), Langfuse/LangSmith (opt-in)
-* [ ] React DevTools panel: prompt graph, deltas, tokens, costs, latency
-* [ ] Test helper: `renderToLLMTrace()` (seeded snapshots)
-* [ ] **Acceptance:** spans visible end-to-end; snapshot replay deterministic ✅
+* [ ] OTel spans + optional exporters
+* [ ] DevTools panel (prompts, deltas, tokens, costs)
 
 ## 8) Safety, Governance, Budgets
 
-* [ ] `<Guardrails schema|moderation>` (schema parsing + retry; moderation gates)
-* [ ] Budget policy per subtree (USD/tokens) with pre-call enforcement
-* [ ] Tool allowlists; MCP server scoping per `<LLMProvider>`
-* [ ] Redaction in traces (PII scrub); full text kept in-memory only (configurable)
-* [ ] **Acceptance:** blocked outputs prevented; over-budget throws/suspends with clear error UI ✅
+* [ ] `<Guardrails schema|moderation>`
+* [ ] Budget policy per subtree; engine enforcement hooks
+* [ ] Tool allowlists / MCP server scoping; redaction in traces
 
 ## 9) DX Polish & Examples
 
 * [ ] `examples/nextjs-chat` (SSR/Edge, tools, budgets)
-* [ ] `examples/rag-handbook` (index + retriever + annotations)
-* [ ] `examples/agents-triage` (LangGraph + HumanGate)
-* [ ] `examples/temporal-bg` (background run)
-* [ ] `examples/cost-dashboard` (aggregate `useCost()`)
-* [ ] ESLint rules: unkeyed streams, unsafe interpolation in `<System>`, missing `<Tool>` schema
-* [ ] (Optional) CLI to scaffold MCP tools & vector adapters
-* [ ] Docs: concepts, engines, transport/tools, RAG, observability/testing, recipes
-* [ ] **Acceptance:** examples runnable locally + in CI; docs publishable ✅
+* [ ] `examples/rag-handbook`
+* [ ] `examples/agents-triage` (LangGraph)
+* [ ] `examples/cost-dashboard`
+* [ ] ESLint rules + (optional) CLI scaffolder
+* [ ] Docs site
 
 ## 10) Testing Strategy
 
-* [ ] Unit: deltas, parsers, prop diffing, budget math
-* [ ] Engine conformance: golden traces (builtin vs LangGraph)
-* [ ] Integration: examples headless with mocked transport; real LiteLLM-tagged CI job
-* [ ] Contract tests: MCP round-trip + Zod; vector adapters with deterministic embeddings mock
+* [x] **Runtime unit tests:** delta codecs, budget tracker, error normalization
+* [ ] Engine conformance (builtin ↔ langgraph) via golden traces
+* [ ] Integration: examples with mocked transport
+* [ ] Contract tests: MCP round-trip; vector adapters with deterministic embeddings
 * [ ] E2E (Playwright): streaming, cancellation, Suspense fallbacks
-* [ ] **Acceptance:** CI green across unit/integration/E2E; conformance parity report ✅
 
-## 11) Release Strategy & Stability
+## 11) Release Strategy
 
-* [ ] Alpha: core + builtin engine + LiteLLM + MCP + memory vector + basic devtools
-* [ ] Beta: LangGraph engine + pgvector/qdrant + tracing exporters
-* [ ] 1.0: Temporal bridge + polished devtools + hardened docs
-* [ ] Semver policy: stable JSX/hooks; engines/adapters version independently
-* [ ] Feature flags via `<LLMProvider experimental={{…}}>`
-* [ ] **Acceptance:** tagged releases; changelogs via Changesets; upgrade guide ✅
-
-## 12) Risks & Mitigations
-
-* [ ] Engine divergence → conformance suite + shared Delta protocol
-* [ ] Streaming edge cases → backpressure tests + explicit abort on unmount
-* [ ] Provider quirks via LiteLLM → normalized errors + token counts; warnings on unknowns
-* [ ] Index latency/size → async build paths, background upserts, progress surfaced
-* [ ] Tool security → default deny, allowlists, sandbox MCP, redact logs
+* [ ] Alpha: runtime + engine-builtin + minimal renderer
+* [ ] Beta: LangGraph engine + vector adapters
+* [ ] 1.0: Temporal bridge + devtools + docs
 
 ---
 
-## Immediate Next Steps (Tranche 1)
+## Immediate Next Steps
 
-* [ ] Scaffold monorepo + packages + CI
-* [ ] Implement `transport-litelm` (happy path + mock)
-* [ ] Implement `tools-mcp` (register/call + Zod)
-* [ ] Build reconciler core + `<LLMProvider> <Chat> <Stream> <Tool>` + `useChat/useCompletion`
-* [ ] Ship `engine-builtin` MVP + `examples/nextjs-chat`
-* [ ] Add `vector-memory` + `<Index>/<Retriever>` + `examples/rag-handbook`
-* [ ] Stand up basic devtools + OTel tracing
-* [ ] Start engine conformance tests; scaffold `engine-langgraph` behind flag
+* [ ] Implement `@react-llm-fiber/react` skeleton (HostConfig + `<LLMProvider>/<Chat>/<Stream>`).
+* [ ] Add minimal `VectorIndex` usage path (either inside engine or as a tiny `vector-memory` package).
+* [ ] Create `examples/nextjs-chat` to exercise runtime + engine-builtin.
+* [ ] Set up CI and basic linting/prettier.
