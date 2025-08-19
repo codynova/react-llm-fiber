@@ -21,10 +21,10 @@
     "skipLibCheck": true,
     "paths": {
       "@react-llm-fiber/runtime": [
-        "packages/runtime/src"
+        "./packages/runtime/src"
       ],
       "@react-llm-fiber/runtime/*": [
-        "packages/runtime/src/*"
+        "./packages/runtime/src/*"
       ],
     }
   }
