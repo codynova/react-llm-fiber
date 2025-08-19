@@ -19,6 +19,13 @@
     "exactOptionalPropertyTypes": true,
     "noUncheckedSideEffectImports": true,
     "skipLibCheck": true,
-    "paths": {}
+    "paths": {
+      "@react-llm-fiber/runtime": [
+        "packages/runtime/src"
+      ],
+      "@react-llm-fiber/runtime/*": [
+        "packages/runtime/src/*"
+      ],
+    }
   }
 }
