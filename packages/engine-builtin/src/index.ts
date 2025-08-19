@@ -116,10 +116,10 @@ export const createBuiltinEngine = (options: BuiltinEngineOptions): Engine => {
               try {
                 const result = await toolsRuntime.call(name, parsedArgs, { runId: id, signal: controller.signal });
                 ctrl.enqueue({ type: 'tool_result', name, result });
-              } catch (e: any) {
+              } catch (err: any) {
                 ctrl.enqueue({
                   type: 'error',
-                  error: { name: 'ToolExecutionError', message: String(e?.message ?? e), code: 'tool_failure' },
+                  error: { name: 'ToolExecutionError', message: String(err?.message ?? err), code: 'tool_failure' },
                 });
               }
             }
@@ -163,10 +163,10 @@ export const createBuiltinEngine = (options: BuiltinEngineOptions): Engine => {
           // Final status (best-effort)
           ctrl.enqueue({ type: 'status', phase: 'done' });
           ctrl.close();
-        } catch (err) {
+        } catch (err: any) {
           ctrl.enqueue({
             type: 'error',
-            error: { name: (err as any)?.name ?? 'Error', message: String((err as any)?.message ?? err) },
+            error: { name: err?.name ?? 'Error', message: String(err?.message ?? err) },
           });
           ctrl.close();
         }

@@ -21,12 +21,14 @@ export const toOpenAiTools = (tools: ToolSpec[]) =>
 export const safeJsonParse = (text: string) => {
   try {
     return JSON.parse(text);
-  } catch {
+  } catch (err: any) {
+    const error = { name: err?.name ?? 'Error', message: String(err?.message ?? err) };
+    console.error('safeJsonParse failed:', error);
     return text; // fall back to raw string; the tool may accept it
   }
 };
 
 export const makeId = (): string => {
   if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID();
-  return `run_${Math.random().toString(36).slice(2)}`;
+  return Math.random().toString(36).slice(2);
 };

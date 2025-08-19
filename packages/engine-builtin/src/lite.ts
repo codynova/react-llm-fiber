@@ -65,8 +65,10 @@ export const streamLiteLlmChat = async (options: {
           })
         );
       }
-    } catch {
+    } catch (err: any) {
       // swallow parse irregularities; engine emits final error if fetch fails
+      const error = { name: err?.name ?? 'Error', message: String(err?.message ?? err) };
+      console.error('Error parsing `data:` line during flush', error);
     }
   });
 };

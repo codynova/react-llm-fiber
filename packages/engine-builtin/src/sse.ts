@@ -30,8 +30,9 @@ export const readSse = async (
         }
         try {
           onData(JSON.parse(raw));
-        } catch {
-          console.error('Error parsing `data:` line')
+        } catch (err: any) {
+          const error = { name: err?.name ?? 'Error', message: String(err?.message ?? err) };
+          console.error('Error parsing `data:` line', error);
         }
       }
     }
@@ -46,8 +47,9 @@ export const readSse = async (
       else {
         try {
           onData(JSON.parse(raw));
-        } catch {
-          console.error('Error parsing `data:` line during flush')
+        } catch (err: any) {
+          const error = { name: err?.name ?? 'Error', message: String(err?.message ?? err) };
+          console.error('Error parsing `data:` line during flush', error);
         }
       }
     }
