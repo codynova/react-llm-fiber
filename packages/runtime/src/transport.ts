@@ -21,6 +21,6 @@ export type Transport = {
   chat: (params: ChatParams) => Promise<ReadableStream<Delta>>;
   embed?: (
     texts: string[],
-    opts?: { model?: string; signal?: AbortSignal }
+    options?: { model?: string; signal?: AbortSignal }
   ) => Promise<number[][]>;
 }

@@ -23,13 +23,13 @@ export type BuiltinEngineOptions = {
   tools?: ToolRuntime;
 };
 
-export const createBuiltinEngine = (opts: BuiltinEngineOptions): Engine => {
-  const toolsRuntime: ToolRuntime | undefined = opts.tools;
+export const createBuiltinEngine = (options: BuiltinEngineOptions): Engine => {
+  const toolsRuntime: ToolRuntime | undefined = options.tools;
 
-  const run = async (input: RunInput, _runOpts?: { signal?: AbortSignal }): Promise<RunHandle> => {
+  const run = async (input: RunInput, runOptions?: { signal?: AbortSignal }): Promise<RunHandle> => {
     const id = makeId();
     const controller = new AbortController();
-    const outerSignal = _runOpts?.signal;
+    const outerSignal = runOptions?.signal;
     if (outerSignal) {
       if (outerSignal.aborted) controller.abort();
       else outerSignal.addEventListener('abort', () => controller.abort(), { once: true });
@@ -49,10 +49,10 @@ export const createBuiltinEngine = (opts: BuiltinEngineOptions): Engine => {
         try {
           // Stream deltas from LiteLLM, converting OpenAI stream → public Delta (token/status) and tracking tool_calls
           await streamLiteLlmChat({
-            baseUrl: opts.baseUrl,
-            headers: opts.headers,
+            baseUrl: options.baseUrl,
+            headers: options.headers,
             body: {
-              model: input.model ?? opts.defaultModel,
+              model: input.model ?? options.defaultModel,
               stream: true,
               messages,
               tools,
@@ -76,15 +76,15 @@ export const createBuiltinEngine = (opts: BuiltinEngineOptions): Engine => {
               const toolCalls: any[] | undefined = delta?.tool_calls;
               if (Array.isArray(toolCalls)) {
                 for (const tc of toolCalls) {
-                  const idx: number = typeof tc.index === 'number' ? tc.index : 0;
-                  if (!pendingTools[idx]) {
-                    pendingTools[idx] = { args: '' };
-                    orderedToolIndexes.push(idx);
+                  const index: number = typeof tc.index === 'number' ? tc.index : 0;
+                  if (!pendingTools[index]) {
+                    pendingTools[index] = { args: '' };
+                    orderedToolIndexes.push(index);
                   }
-                  if (tc.id && !pendingTools[idx].id) pendingTools[idx].id = tc.id;
+                  if (tc.id && !pendingTools[index].id) pendingTools[index].id = tc.id;
                   const fn = tc.function;
-                  if (fn?.name) pendingTools[idx].name = fn.name;
-                  if (typeof fn?.arguments === 'string') pendingTools[idx].args += fn.arguments;
+                  if (fn?.name) pendingTools[index].name = fn.name;
+                  if (typeof fn?.arguments === 'string') pendingTools[index].args += fn.arguments;
                 }
               }
             },
@@ -92,9 +92,9 @@ export const createBuiltinEngine = (opts: BuiltinEngineOptions): Engine => {
 
           // 2) If tool_calls were requested, execute them in order and emit tool_call/tool_result deltas.
           if (orderedToolIndexes.length > 0) {
-            for (const idx of orderedToolIndexes) {
-              const call = pendingTools[idx];
-              if (!call) throw Error(`Could not find pendingTools call for index ${idx}`);
+            for (const index of orderedToolIndexes) {
+              const call = pendingTools[index];
+              if (!call) throw Error(`Could not find pendingTools call for index ${index}`);
               const name = call.name ?? 'unknown_tool';
               const rawArgs = call.args ?? '';
               const parsedArgs = safeJsonParse(rawArgs);
@@ -125,10 +125,10 @@ export const createBuiltinEngine = (opts: BuiltinEngineOptions): Engine => {
             }
 
             // 3) Second pass: ask model again with tool results appended, and stream final answer
-            const toolMessages: ChatMessage[] = orderedToolIndexes.map((idx) => {
+            const toolMessages: ChatMessage[] = orderedToolIndexes.map((index) => {
               // If provider expects tool_call_id, try to include it; else just send content.
-              const call = pendingTools[idx];
-              if (!call) throw Error(`Could not find pendingTools call for index ${idx}`);
+              const call = pendingTools[index];
+              if (!call) throw Error(`Could not find pendingTools call for index ${index}`);
               const content = JSON.stringify({ ok: true, ...(call.args ? { input: safeJsonParse(call.args) } : {}) });
               // Our public ChatMessage doesn't carry 'tool_call_id'; providers will still use content.
               return { role: 'tool', content };
@@ -137,10 +137,10 @@ export const createBuiltinEngine = (opts: BuiltinEngineOptions): Engine => {
             const secondMessages = toOpenAiMessages([...input.messages, ...toolMessages]);
 
             await streamLiteLlmChat({
-              baseUrl: opts.baseUrl,
-              headers: opts.headers,
+              baseUrl: options.baseUrl,
+              headers: options.headers,
               body: {
-                model: input.model ?? opts.defaultModel,
+                model: input.model ?? options.defaultModel,
                 stream: true,
                 messages: secondMessages,
                 // No tools on the second call by default; you can allow recursive tools if desired:

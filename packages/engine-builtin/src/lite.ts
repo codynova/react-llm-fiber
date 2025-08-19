@@ -14,7 +14,7 @@ export type LiteChatBody = {
   tools?: Array<any>;
 } & Record<string, unknown>;
 
-export const streamLiteLlmChat = async (opts: {
+export const streamLiteLlmChat = async (options: {
   baseUrl: string;
   headers?: Record<string, string>;
   body: LiteChatBody;
@@ -22,14 +22,14 @@ export const streamLiteLlmChat = async (opts: {
   onDelta: (wire: WireDelta) => void;
   onOpenAiChunk: (payload: any) => void;
 }) => {
-  const res = await fetch(`${opts.baseUrl.replace(/\/$/, '')}/v1/chat/completions`, {
+  const res = await fetch(`${options.baseUrl.replace(/\/$/, '')}/v1/chat/completions`, {
     method: 'POST',
     headers: {
       'content-type': 'application/json',
-      ...(opts.headers ?? {}),
+      ...(options.headers ?? {}),
     },
-    body: JSON.stringify(opts.body),
-    signal: opts.signal,
+    body: JSON.stringify(options.body),
+    signal: options.signal,
   });
 
   if (!res.ok || !res.body) {
@@ -42,20 +42,20 @@ export const streamLiteLlmChat = async (opts: {
     if (obj === '[DONE]') return;
     if (typeof obj !== 'object' || !obj) return;
 
-    opts.onOpenAiChunk(obj);
+    options.onOpenAiChunk(obj);
 
     try {
       const choice = obj?.choices?.[0];
       const delta = choice?.delta ?? {};
       const content = delta?.content;
       if (typeof content === 'string' && content.length > 0) {
-        opts.onDelta(encodeDelta({ type: 'token', chunk: content }));
+        options.onDelta(encodeDelta({ type: 'token', chunk: content }));
       }
 
       // (Optional) usage/meta — some proxies provide usage in-stream or at end. Best effort.
       const usage = obj?.usage ?? choice?.usage;
       if (usage && (usage.prompt_tokens != null || usage.completion_tokens != null)) {
-        opts.onDelta(
+        options.onDelta(
           encodeDelta({
             type: 'meta',
             tokens: {

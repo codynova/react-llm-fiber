@@ -9,15 +9,15 @@ export const readSse = async (
   const decoder = new TextDecoder();
   let buf = '';
 
-  for (;;) {
+  while (true) {
     const { done, value } = await reader.read();
     if (done) break;
     buf += decoder.decode(value, { stream: true });
 
-    let idx: number;
-    while ((idx = buf.indexOf('\n\n')) >= 0) {
-      const frame = buf.slice(0, idx);
-      buf = buf.slice(idx + 2);
+    let index: number;
+    while ((index = buf.indexOf('\n\n')) >= 0) {
+      const frame = buf.slice(0, index);
+      buf = buf.slice(index + 2);
 
       // Collect all 'data:' lines within the frame
       const lines = frame.split('\n').filter((l) => l.startsWith('data:'));
@@ -31,7 +31,7 @@ export const readSse = async (
         try {
           onData(JSON.parse(raw));
         } catch {
-          // ignore parse error
+          console.error('Error parsing `data:` line')
         }
       }
     }
@@ -46,7 +46,9 @@ export const readSse = async (
       else {
         try {
           onData(JSON.parse(raw));
-        } catch { /* noop */ }
+        } catch {
+          console.error('Error parsing `data:` line during flush')
+        }
       }
     }
   }

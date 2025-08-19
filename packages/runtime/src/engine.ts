@@ -28,12 +28,12 @@ export type AgentGraphInput = {
 
 export type Engine = {
   /** Single-turn or streaming chat run */
-  run: (input: RunInput, opts?: { signal?: AbortSignal }) => Promise<RunHandle>;
+  run: (input: RunInput, options?: { signal?: AbortSignal }) => Promise<RunHandle>;
 
   /** Optional: multi-step/agentic flow (LangGraph, etc.) */
   agent?: (
     graph: AgentGraphInput,
-    opts?: { signal?: AbortSignal }
+    options?: { signal?: AbortSignal }
   ) => Promise<RunHandle>;
 
   /** Optional: reattach to a durable run */

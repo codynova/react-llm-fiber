@@ -1,3 +1,6 @@
+/**
+ * Helpers: message/tool mapping to OpenAI schema, safe JSON parse, and id generator.
+ */
 import type { ChatMessage, ToolSpec } from '@react-llm-fiber/runtime';
 
 export const toOpenAiMessages = (msgs: ChatMessage[]) =>
