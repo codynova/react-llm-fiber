@@ -1,4 +1,4 @@
-/** Public (developer-facing) Delta type — readable discriminant `type` */
+/** Public (developer-facing) Delta type - readable discriminant `type` */
 export type Phase = 'plan' | 'execute' | 'critic' | 'done';
 
 export type SerializedError = {
@@ -19,7 +19,7 @@ export type Delta =
   | { type: 'status'; phase: Phase }
   | { type: 'error'; error: SerializedError };
 
-/** Compact wire format — short keys to reduce bandwidth */
+/** Compact wire format - short keys to reduce bandwidth */
 export type WireDelta =
   | { t: 'token'; c: string }
   | { t: 'tool_call'; n: string; a: unknown }

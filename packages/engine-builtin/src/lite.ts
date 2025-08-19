@@ -52,7 +52,7 @@ export const streamLiteLlmChat = async (options: {
         options.onDelta(encodeDelta({ type: 'token', chunk: content }));
       }
 
-      // (Optional) usage/meta — some proxies provide usage in-stream or at end. Best effort.
+      // (Optional) usage/meta - some proxies provide usage in-stream or at end. Best effort.
       const usage = obj?.usage ?? choice?.usage;
       if (usage && (usage.prompt_tokens != null || usage.completion_tokens != null)) {
         options.onDelta(

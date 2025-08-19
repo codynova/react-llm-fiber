@@ -155,7 +155,7 @@ export const createBuiltinEngine = (options: BuiltinEngineOptions): Engine => {
                 }
               },
               onOpenAiChunk: () => {
-                /* no-op; don’t track tool calls on second pass (MVP) */
+                /* no-op; don't track tool calls on second pass (MVP) */
               },
             });
           }

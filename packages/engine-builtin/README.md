@@ -22,5 +22,5 @@ const engine = createBuiltinEngine({
 ## Limitations
 
 - Tool execution supports one pass of tool calls and a single follow-up assistant turn. Recursive tool loops can be added later.
-- We don’t currently propagate tool_call_id back to the model in the second pass; many providers work fine with plain tool content for simple tools. If you want strict OpenAI semantics, we can extend ChatMessage with an optional tool_call_id later.
+- We don't currently propagate tool_call_id back to the model in the second pass; many providers work fine with plain tool content for simple tools. If you want strict OpenAI semantics, we can extend ChatMessage with an optional tool_call_id later.
 - Token/cost meta is best-effort; proxies vary in how/when they emit usage during streams.
