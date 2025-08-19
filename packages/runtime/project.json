@@ -1,7 +1,7 @@
 {
-  "name": "reconciler",
+  "name": "runtime",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "packages/reconciler/src",
+  "sourceRoot": "packages/runtime/src",
   "projectType": "library",
   "tags": [],
   "targets": {
@@ -13,9 +13,14 @@
     },
     "test": {
       "executor": "nx:run-commands",
-      "options": {
-        "command": "jest --maxWorkers=75%",
-        "cwd": "{projectRoot}"
+      "defaultConfiguration": "dev",
+      "configurations": {
+        "dev": {
+          "command": "vitest run"
+        },
+        "ci": {
+          "command": "vitest run --coverage"
+        }
       }
     },
     "typecheck": {
@@ -24,7 +29,7 @@
       "configurations": {
         "dev": {
           "commands": [
-            "tsc --build ./tsconfig.dev.json --pretty --verbose",
+            "tsc --build --pretty --verbose",
             "prettier ./dts --write --loglevel warn"
           ],
           "parallel": false

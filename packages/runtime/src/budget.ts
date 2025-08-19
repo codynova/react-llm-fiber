@@ -1,4 +1,4 @@
-import type { Delta } from './delta';
+import type { Delta } from './delta.js';
 
 export type Budget = {
   maxUSD?: number;

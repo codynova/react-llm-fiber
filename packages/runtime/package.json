@@ -2,12 +2,14 @@
   "name": "@react-llm-fiber/runtime",
   "version": "0.0.1",
   "private": true,
+  "type": "module",
   "dependencies": {
     "react": "^19.1.1",
     "react-reconciler": "0.32.0"
   },
   "devDependencies": {
     "@types/react": "^19.1.1",
-    "@types/react-reconciler": "0.32.0"
+    "@types/react-reconciler": "0.32.0",
+    "vitest": "^3.2.4"
   }
 }

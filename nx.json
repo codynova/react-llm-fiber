@@ -109,6 +109,9 @@
       "dependsOn": [
         "^build"
       ],
+      "options": {
+        "cwd": "{projectRoot}"
+      },
       "inputs": [
         "default",
         "^production"

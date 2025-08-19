@@ -1,8 +1,8 @@
 // packages/runtime/src/engine.ts
 
-import type { Delta } from './delta';
-import type { ChatMessage } from './transport';
-import type { ToolSpec } from './tools';
+import type { Delta } from './delta.js';
+import type { ChatMessage } from './transport.js';
+import type { ToolSpec } from './tools.js';
 
 export type RunHandle = {
   /** Unique run id (used for resume/replay/audit) */

@@ -1,5 +1,5 @@
-import type { Delta } from './delta';
-import type { ToolSpec } from './tools';
+import type { Delta } from './delta.js';
+import type { ToolSpec } from './tools.js';
 
 export type ChatMessage =
   | { role: 'system'; content: string }
