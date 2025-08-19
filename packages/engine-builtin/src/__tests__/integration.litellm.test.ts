@@ -56,7 +56,7 @@ describe('integration: LiteLLM streaming', () => {
     // Per-test timeout guard (Vitest also enforces its own timeout)
     const deadline = Date.now() + 45_000;
 
-    for (;;) {
+    while (true) {
       if (Date.now() > deadline) {
         handle.abort();
         throw new Error('Timed out waiting for stream output');

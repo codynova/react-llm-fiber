@@ -8,6 +8,11 @@
     "packages/*"
   ],
   "devDependencies": {
+    "@babel/cli": "^7.28.3",
+    "@babel/core": "^7.28.3",
+    "@babel/preset-env": "^7.28.3",
+    "@babel/preset-react": "^7.27.1",
+    "@babel/preset-typescript": "^7.27.1",
     "@nx/jest": "21.4.0",
     "@nx/workspace": "21.4.0",
     "@types/jest": "^30",
